@@ -1,22 +1,18 @@
-# 🏢 OfficeOps: Modern Workforce Productivity Suite
+## Table of Contents
 
-[![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/downloads/)
-[![Django](https://img.shields.io/badge/Django-3.2+-green.svg)](https://www.djangoproject.com/)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.txt)
+1. [Introduction](#officeops-workforce-productivity-suite)
+   - [Deployed Website](#deployed-website)
+   - [Default Credentials](#default-credentials)
+2. [Features](#features)
+   - [CEO Features](#ceo-can)
+   - [Manager Features](#manager-can)
+   - [Employee Features](#employee-can)
+3. [Screenshots](#screenshots)
+4. [Installation](#installation)
+5. [Contributions](#contributions)
+6. [License](#license)
 
-A powerful and modern HR management system built with Django, featuring a beautiful UI and comprehensive functionality for CEOs, Managers, and Employees.
-
-## 📑 Table of Contents
-
-- [🌟 Features](#-features)
-- [🖥️ Screenshots](#-screenshots)
-- [🚀 Quick Start](#-quick-start)
-- [💻 Development Setup](#-development-setup)
-- [🔐 Access Credentials](#-access-credentials)
-- [🛠️ Tech Stack](#-tech-stack)
-- [📚 Documentation](#-documentation)
-- [🤝 Contributing](#-contributing)
-- [📄 License](#-license)
+# OfficeOps: Workforce Productivity Suite
 
 OfficeOps is a powerful Workforce Productivity Suite built using Django, designed to streamline HR and office management processes within your organization. This project allows CEOs, Managers, and Employees to manage various aspects of HR, including employee information, attendance, feedback, and leave requests.
 
@@ -28,15 +24,12 @@ You can access the deployed OfficeOps website at [officeops.onrender.com](https:
 
 For CEO:
 - Email: admin@admin.com
-- Password: admin
 
 For Manager:
 - Email: manager@manager.com
-- Password: manager
 
 For Employee:
 - Email: employee@employee.com
-- Password: employee
 
 ## Features
 
@@ -72,55 +65,122 @@ For Employee:
 
 - **Connect with CEO:** Employees can provide feedback and share important concerns with the CEO, fostering a culture of open communication.
 
-## Screenshots
-
-| CEO                                        | Manager                                         | Employee                                     |
-|:------------------------------------------:|:-----------------------------------------------:|:--------------------------------------------:|
-| ![CEO_Home](/visuals/ss/CEO_Home.png) | ![Manager_Home](/visuals/ss/Manager_Home.png) | ![Employee_Home](/visuals/ss/Employee_Home.png)   |
-| DashBoard                           | DashBoard                            | DashBoard                              |
-| ![CEO_ManageEmployee](/visuals/ss/CEO_ManageEmployee.png) | ![Manager_AddSalary](/visuals/ss/Manager_AddSalary.png) | ![Employee_ViewSalary](/visuals/ss/Employee_ViewSalary.png)   |
-| Manage Employee                            | Add Salary                            | View Salary                             |
-| ![CEO_ManageManager](/visuals/ss/CEO_ManageManager.png) | ![Manager_TakeAttendance](/visuals/ss/Manager_TakeAttendance.png) | ![Employee_EditProfile](/visuals/ss/Employee_EditProfile.png)   |
-| Manage Manager                            | Take Attendance                            | Edit Profile      
-| ![CEO_EmployeeLeave](/visuals/ss/CEO_EmployeeLeave.png) | ![Manager_ViewAttendance](/visuals/ss/Manager_ViewAttendance.png) | ![Employee_Attendence](/visuals/ss/Employee_Attendence.png)   |
-| Leave Application Reply                           | Update Attendance                            | View Attendance                             |
-| ![CEO_ManagerLeave](/visuals/ss/CEO_ManagerLeave.png) | ![Manager_ApplyForLeave](/visuals/ss/Manager_ApplyForLeave.png) | ![Employee_ApplyForLeave](/visuals/ss/Employee_ApplyForLeave.png)   |
-| Leave Application Response                           | Apply For Leave                           | Apply For Leave                             |
-| ![CEO_EmployeeFeedbackReply](/visuals/ss/CEO_EmployeeFeedbackReply.png) | ![Manager_Feedback](/visuals/ss/Manager_Feedback.png) | ![Employee_Feedback](/visuals/ss/Employee_Feedback.png)   |
-| Feedback                            | Feedback                            | Feedback                             |
-| ![CEO_NotifyManager](/visuals/ss/CEO_NotifyManager.png) | ![Manager_Notification](/visuals/ss/Manager_Notification.png) | ![Employee_Notification](/visuals/ss/Employee_Notification.png)   |
+#
 | Send Notification                            | View Notification                            | View Notification                            |
 
-## Installation
+## Quick Deploy to Render
 
-To set up this project on your local machine, follow these steps:
+1. Fork this repository to your GitHub account
+2. Go to your Render dashboard: [dashboard.render.com](https://dashboard.render.com)
+3. Click "New +" and select "Blueprint"
+4. Connect your GitHub repository
+5. Click "Apply" - Render will automatically:
+   - Create a web service
+   - Set up a PostgreSQL database
+   - Configure all environment variables
+   - Deploy your application
+
+Everything is pre-configured in the `render.yaml` file, including:
+- Python version
+- Build and start commands
+- Database setup
+- Environment variables
+- Redis cache (optional)
+- Region configuration (Singapore)
+
+No additional configuration needed! The deployment will be fully automatic.
+
+## Local Installation
 
 1. Clone the repository:
+```bash
+git clone https://github.com/sarif-mia/office-wps.git
+cd office-wps
 ```
-git clone https://github.com/
-```
-2. Create a virtual environment and activate it:
-```
+
+2. Create and activate virtual environment:
+```bash
+# Windows
 python -m venv venv
 venv\Scripts\activate
-```
-3. Navigate to the project directory and setup environment:
-```
-cd OfficeOps-WPS
-```
-Create .env File: Create a file named .env in the project directory. Add the following content to the .env file:
-or just rename .env.example to .env
-```
-DATABASE_URL = "postgres://USER:PASSWORD@localhost:5432/DB_NAME"
-SECRET_KEY = "your_secret_key"
-```
-NOTE: Make sure to replace YOUR_USER, YOUR_PASSWORD, YOUR_DB_NAME with your actual database credentials. 
-Also, substitute YOUR_SECRET_KEY with your desired secret key.
 
-4. Install dependencies:
+# Linux/Mac
+python3 -m venv venv
+source venv/bin/activate
 ```
+
+3. Install dependencies:
+```bash
 pip install -r requirements.txt
 ```
+
+4. Create `.env` file:
+```env
+# For SQLite (Development)
+DATABASE_URL=sqlite:///db.sqlite3
+SECRET_KEY=your-secret-key-here
+DEBUG=True
+ALLOWED_HOSTS=localhost,127.0.0.1
+
+# For PostgreSQL (Optional)
+# DATABASE_URL=postgres://user:password@localhost:5432/dbname
+```
+
+5. Initialize the database:
+```bash
+# Apply migrations
+python manage.py migrate
+
+# Create superuser (CEO account)
+python manage.py createsuperuser
+
+# Collect static files
+python manage.py collectstatic
+```
+
+6. Run the development server:
+```bash
+python manage.py runserver
+```
+
+7. Access the application:
+- Open your browser and go to `http://127.0.0.1:8000`
+- Log in with your superuser credentials
+
+## Production Deployment
+
+For production deployment on Render:
+
+1. Ensure your code is in a GitHub repository
+2. Create a new Web Service in Render
+3. Connect your GitHub repository
+4. Configure the build:
+   ```
+   Build Command: pip install -r requirements.txt
+   Start Command: gunicorn office_ops.wsgi:application
+   ```
+5. Add environment variables:
+   - `DATABASE_URL`: Your PostgreSQL database URL (Render will create this automatically if you add a PostgreSQL database)
+   - `SECRET_KEY`: Your Django secret key
+   - `DEBUG`: Set to "False"
+   - `ALLOWED_HOSTS`: Your render domain (e.g., your-app.onrender.com)
+
+## Database Setup
+
+### Development (SQLite)
+- SQLite is configured by default for development
+- No additional setup required
+- Database file: `db.sqlite3`
+
+### Production (PostgreSQL)
+1. Create a PostgreSQL database in Render
+2. Render will automatically add the `DATABASE_URL` to your environment variables
+3. The application will automatically use the PostgreSQL database in production
+
+## Static Files
+- Static files are automatically served by Whitenoise in production
+- Run `python manage.py collectstatic` to collect all static files
+- No additional configuration needed for Render deployment
 5. Configure the database settings in settings.py and run migrations:
 ```
 python manage.py makemigrations main_app
