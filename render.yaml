@@ -18,6 +18,8 @@ services:
         value: 3.11.0
       - key: WEB_CONCURRENCY
         value: 4
+      - key: PYTHON_RUNTIME_VERSION
+        value: 3.11.0
 
   - type: redis
     name: office-wps-redis
