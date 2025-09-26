@@ -1,6 +1,0 @@
-- Download AdminLTE v3.2.0 zip from GitHub
-- Extract AdminLTE zip and copy dist/ to static/dist/
-- Download Bootstrap v4.6.2 compiled JS zip
-- Extract Bootstrap zip and copy js/ to static/plugins/bootstrap/js/
-- Verify the updates by checking versions in files
-- Test the application by running the Django server

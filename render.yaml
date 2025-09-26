@@ -15,11 +15,11 @@ services:
       - key: DEBUG
         value: false
       - key: PYTHON_VERSION
-        value: 3.11.0
+        value: 3.13.0
       - key: WEB_CONCURRENCY
         value: 4
       - key: PYTHON_RUNTIME_VERSION
-        value: 3.11.0
+        value: 3.13.0
 
   - type: redis
     name: office-wps-redis

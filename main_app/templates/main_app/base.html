@@ -11,7 +11,7 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="{% static 'plugins/fontawesome-free/css/all.min.css'%} ">
     <!-- Ionicons -->
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="{% static 'plugins/ionicons/css/ionicons.min.css' %}">
     <!-- Tempusdominus Bbootstrap 4 -->
     <link rel="stylesheet"
         href="{% static 'plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css'%} ">
@@ -62,25 +62,6 @@
         <div class="content-wrapper">
 
             <!-- Content Wrapper. Contains page content -->
-            <!-- Content Header (Page header) -->
-            <div class="content-header">
-                <div class="container-fluid">
-                    <div class="row mb-2">
-                        <div class="col-sm-6">
-                            <h1 class="m-0 text-dark">{% block page_title %}{% endblock page_title %}</h1>
-                        </div><!-- /.col -->
-                        <div class="col-sm-6">
-                            
-                            <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item active">{{ page_title }}</li>
-                            </ol>
-                        </div><!-- /.col -->
-                    </div><!-- /.row -->
-                </div><!-- /.container-fluid -->
-            </div>
-            <!-- /.content-header -->
-
             <!-- Main content -->
             
 <section class="content">
@@ -114,11 +95,11 @@
 
         <!-- Page Header -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">{% block page_title %}{% endblock page_title %}</h1>
+            <h1 class="h3 mb-0 text-gray-800">{{ page_title|default:"Dashboard" }}</h1>
             <div class="d-none d-sm-inline-block">
                 <ol class="breadcrumb float-sm-right bg-transparent p-0">
                     <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
-                    <li class="breadcrumb-item active">{{ page_title }}</li>
+                    <li class="breadcrumb-item active">{{ page_title|default:"Dashboard" }}</li>
                 </ol>
             </div>
         </div>
