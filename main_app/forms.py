@@ -172,3 +172,12 @@ class EditSalaryForm(FormSettings):
     class Meta:
         model = EmployeeSalary
         fields = ['department', 'employee', 'base', 'ctc']
+
+
+class DeviceForm(FormSettings):
+    def __init__(self, *args, **kwargs):
+        super(DeviceForm, self).__init__(*args, **kwargs)
+
+    class Meta:
+        model = Device
+        fields = ['type', 'serial_number', 'ip_address', 'port', 'username', 'password']

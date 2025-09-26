@@ -4,71 +4,160 @@
 {% block content %}
 <section class="content">
     <div class="container-fluid">
-        <!-- Small boxes (Stat box) -->
+        <!-- Dashboard Stats -->
         <div class="row">
             <div class="col-lg-3 col-6">
-                <!-- small box -->
-                <div class="small-box bg-info">
+                <!-- Employees Stats -->
+                <div class="small-box bg-gradient-info shadow-sm">
                     <div class="inner">
                         <h3>{{total_employees}}</h3>
-
                         <p>Total Employees</p>
                     </div>
                     <div class="icon">
-                        <i class="ion ion-bag"></i>
+                        <i class="fas fa-users"></i>
                     </div>
-                    <a href="{% url 'manage_employee' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-
+                    <a href="{% url 'manage_employee' %}" class="small-box-footer">
+                        Manage Employees <i class="fas fa-arrow-circle-right"></i>
+                    </a>
                 </div>
             </div>
-            <!-- ./col -->
+            <!-- Manager Stats -->
             <div class="col-lg-3 col-6">
-                <!-- small box -->
-                <div class="small-box bg-success">
+                <div class="small-box bg-gradient-success shadow-sm">
                     <div class="inner">
                         <h3>{{total_manager}}</h3>
-
-                        <p>Total Manager</p>
+                        <p>Total Managers</p>
                     </div>
                     <div class="icon">
-                        <i class="ion ion-stats-bars"></i>
+                        <i class="fas fa-user-tie"></i>
                     </div>
-                    <a href="{% url 'manage_manager' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="{% url 'manage_manager' %}" class="small-box-footer">
+                        Manage Managers <i class="fas fa-arrow-circle-right"></i>
+                    </a>
                 </div>
             </div>
-            <!-- ./col -->
+
+            <!-- Division Stats -->
             <div class="col-lg-3 col-6">
-                <!-- small box -->
-                <div class="small-box bg-warning">
+                <div class="small-box bg-gradient-warning shadow-sm">
                     <div class="inner">
                         <h3>{{total_division}}</h3>
-
-                        <p>Total Division</p>
+                        <p>Total Divisions</p>
                     </div>
                     <div class="icon">
-                        <i class="ion ion-person-add"></i>
+                        <i class="fas fa-building"></i>
                     </div>
-                    <a href="{% url 'manage_division' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="{% url 'manage_division' %}" class="small-box-footer">
+                        Manage Divisions <i class="fas fa-arrow-circle-right"></i>
+                    </a>
                 </div>
             </div>
-            <!-- ./col -->
+
+            <!-- Department Stats -->
             <div class="col-lg-3 col-6">
-                <!-- small box -->
-                <div class="small-box bg-danger">
+                <div class="small-box bg-gradient-danger shadow-sm">
                     <div class="inner">
                         <h3>{{total_department}}</h3>
-
                         <p>Total Departments</p>
                     </div>
                     <div class="icon">
-                        <i class="ion ion-pie-graph"></i>
+                        <i class="fas fa-sitemap"></i>
                     </div>
-                    <a href="{% url 'manage_department' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="{% url 'manage_department' %}" class="small-box-footer">
+                        Manage Departments <i class="fas fa-arrow-circle-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Attendance Stats -->
+            <div class="col-lg-3 col-6">
+                <div class="small-box bg-gradient-primary shadow-sm">
+                    <div class="inner">
+                        <h3>{{total_today_attendance}}</h3>
+                        <p>Today's Attendance</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-user-clock"></i>
+                    </div>
+                    <a href="#" class="small-box-footer">
+                        Real-time Updates <i class="fas fa-sync"></i>
+                    </a>
                 </div>
             </div>
             <!-- ./col -->
         </div>
         <!-- /.row -->
+        <!-- Real-time Attendance Row -->
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card card-info">
+                    <div class="card-header">
+                        <h3 class="card-title">Recent Attendance Logs</h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                            <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush">
+                            {% for attendance in recent_attendance %}
+                            <li class="list-group-item">
+                                <strong>{{ attendance.employee.admin.first_name }} {{ attendance.employee.admin.last_name }}</strong> - {{ attendance.created_at|date:"H:i:s" }}
+                                <span class="badge badge-success float-right">Present</span>
+                            </li>
+                            {% empty %}
+                            <li class="list-group-item">No recent attendance logs.</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card card-warning">
+                    <div class="card-header">
+                        <h3 class="card-title">All Employees Attendance Today</h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                            <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Employee</th>
+                                        <th>Department</th>
+                                        <th>Status</th>
+                                        <th>Time</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for emp_att in employee_attendance %}
+                                    <tr>
+                                        <td>{{ emp_att.employee.admin.first_name }} {{ emp_att.employee.admin.last_name }}</td>
+                                        <td>{{ emp_att.employee.department.name }}</td>
+                                        <td>
+                                            {% if emp_att.status == 'Present' %}
+                                                <span class="badge badge-success">Present</span>
+                                            {% else %}
+                                                <span class="badge badge-danger">Absent</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ emp_att.time|date:"H:i:s" if emp_att.time else '-' }}</td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr>
+                                        <td colspan="4">No employees found.</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- Main row -->
         <div class="row">
             <div class="col-md-6">
@@ -76,7 +165,7 @@
                 <div class="card card-secondary">
                   <div class="card-header">
                     <h3 class="card-title">{{page_title}}</h3>
-    
+
                     <div class="card-tools">
                       <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
                       </button>
@@ -87,28 +176,29 @@
                     <div class="chart">
                       <canvas id="pieChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                     </div>
-                  </div></div>
+                  </div>
                   <!-- /.card-body -->
                 </div>
-                <div class="col-md-6">
-                    <div class="card card-secondary">
-              <div class="card-header">
-                <h3 class="card-title">{{page_title}}</h3>
-
-                <div class="card-tools">
-                  <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-                  </button>
-                  <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
-                </div>
-              </div>
-              <div class="card-body">
-                <div class="chart">
-                  <canvas id="barChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
-                </div>
-              </div>
-              <!-- /.card-body -->
             </div>
+            <div class="col-md-6">
+                <div class="card card-secondary">
+                  <div class="card-header">
+                    <h3 class="card-title">{{page_title}}</h3>
+
+                    <div class="card-tools">
+                      <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                      </button>
+                      <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <div class="chart">
+                      <canvas id="barChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                    </div>
+                  </div>
+                  <!-- /.card-body -->
                 </div>
+            </div>
             <!-- right col -->
         </div>
         <!-- /.row (main row) -->
@@ -118,74 +208,118 @@
 
 {% block custom_js %}
   <script>
-      $(document).ready(function(){
-        var donutData        = {
-            labels: ['Employees', 'Manager'],
-            datasets: [
-              {
-                data:[{{total_employees}}, {{total_manager}}],
-                backgroundColor : ['#00a65a', '#f39c12',],
-              }
-            ]
-          }
-        var pieChartCanvas = $('#pieChart').get(0).getContext('2d')
-        var pieData        = donutData;
-        var pieOptions     = {
-          maintainAspectRatio : false,
-          responsive : true,
-        }
-        //Create pie or douhnut chart
-        // You can switch between pie and douhnut using the method below.
-        var pieChart = new Chart(pieChartCanvas, {
-          type: 'pie',
-          data: pieData,
-          options: pieOptions      
+    $(document).ready(function() {
+        // Get Django template values
+        const totalEmployees = Number("{{total_employees}}");
+        const totalManagers = Number("{{total_manager}}");
+        
+        // Pie Chart for Employee Distribution
+        const pieData = {
+            labels: ['Employees', 'Managers'],
+            datasets: [{
+                data: [totalEmployees, totalManagers],
+                backgroundColor: [
+                    'rgba(0, 166, 90, 0.8)',  // Employees - Green
+                    'rgba(243, 156, 18, 0.8)'  // Managers - Orange
+                ],
+                borderColor: [
+                    'rgba(0, 166, 90, 1)',
+                    'rgba(243, 156, 18, 1)'
+                ],
+                borderWidth: 1
+            }]
+        };
+
+        const pieOptions = {
+            maintainAspectRatio: false,
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        padding: 20,
+                        font: {
+                            size: 12
+                        }
+                    }
+                },
+                title: {
+                    display: true,
+                    text: 'Employee Distribution',
+                    font: {
+                        size: 16
+                    },
+                    padding: {
+                        top: 10,
+                        bottom: 30
+                    }
+                }
+            }
+        };
+
+        new Chart($('#pieChart').get(0).getContext('2d'), {
+            type: 'doughnut',
+            data: pieData,
+            options: pieOptions
         });
 
-        var department_list = {{ department_list|safe|escape }};
-        var attendance_list = {{ attendance_list }};
-  
-            var barChartData = {
-      labels  : department_list,
-      datasets: [
-      {
-        label               : 'Attendance',
-        backgroundColor     : '#6c757d',
-        borderColor         : 'rgba(60,141,188,0.8)',
-        pointRadius          : false,
-        pointColor          : '#3b8bba',
-        pointStrokeColor    : 'rgba(60,141,188,1)',
-        pointHighlightFill  : '#fff',
-        pointHighlightStroke: 'rgba(60,141,188,1)',
-        data                : attendance_list
-      }, 
-      
-      ]
-    }
-        var barChartCanvas = $('#barChart').get(0).getContext('2d')
-        var temp0 = barChartData.datasets[0]
-        //var temp1 = areaChartData.datasets[1]
-        barChartData.datasets[0] = temp0
-       // barChartData.datasets[1] = temp0
-    
-    var stackedBarChartOptions = {
-      responsive              : true,
-      maintainAspectRatio     : false,
-      scales: {
-        xAxes: [{
-          stacked: true,
-        }],
-        yAxes: [{
-          stacked: true
-        }]
-      }
-    }
-    
-        var barChart = new Chart(barChartCanvas, {
-          type: 'bar', 
-          data: barChartData,
-          options: stackedBarChartOptions
-        })
-      })
+        // Bar Chart for Department Attendance
+        // Parse Django template variables
+        const departmentList = JSON.parse('{{ department_list|safe|escapejs }}');
+        const attendanceList = JSON.parse('{{ attendance_list|safe|escapejs }}');
+        
+        const barData = {
+            labels: departmentList,
+            datasets: [{
+                label: 'Attendance',
+                backgroundColor: 'rgba(60, 141, 188, 0.8)',
+                borderColor: 'rgba(60, 141, 188, 1)',
+                borderWidth: 1,
+                borderRadius: 4,
+                data: attendanceList
+            }]
+        };
+
+        const barOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Department-wise Attendance',
+                    font: {
+                        size: 16
+                    },
+                    padding: {
+                        top: 10,
+                        bottom: 30
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: {
+                        drawBorder: false,
+                        color: 'rgba(0, 0, 0, 0.1)'
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    }
+                }
+            }
+        };
+
+        new Chart($('#barChart').get(0).getContext('2d'), {
+            type: 'bar',
+            data: barData,
+            options: barOptions
+        });
+    });
   </script>
 {% endblock custom_js %}

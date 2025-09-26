@@ -28,6 +28,26 @@ def admin_home(request):
         attendance_count = Attendance.objects.filter(department=department).count()
         department_list.append(department.name[:7])
         attendance_list.append(attendance_count)
+
+    # Real-time attendance from devices
+    from datetime import date
+    today = date.today()
+    todays_attendance = AttendanceReport.objects.filter(attendance__date=today, status=True).select_related('employee', 'attendance')
+    total_today_attendance = todays_attendance.count()
+    recent_attendance = todays_attendance.order_by('-created_at')[:10]  # Last 10 records
+
+    # All employees with today's attendance status
+    employees = Employee.objects.all().select_related('admin', 'department')
+    employee_attendance = []
+    for emp in employees:
+        report = AttendanceReport.objects.filter(employee=emp, attendance__date=today).first()
+        status = 'Present' if report and report.status else 'Absent'
+        employee_attendance.append({
+            'employee': emp,
+            'status': status,
+            'time': report.created_at if report else None
+        })
+
     context = {
         'page_title': "Administrative Dashboard",
         'total_employees': total_employees,
@@ -35,8 +55,10 @@ def admin_home(request):
         'total_division': total_division,
         'total_department': total_department,
         'department_list': department_list,
-        'attendance_list': attendance_list
-
+        'attendance_list': attendance_list,
+        'total_today_attendance': total_today_attendance,
+        'recent_attendance': recent_attendance,
+        'employee_attendance': employee_attendance,
     }
     return render(request, 'ceo_template/home_content.html', context)
 
@@ -612,3 +634,50 @@ def delete_department(request, department_id):
     department.delete()
     messages.success(request, "Department deleted successfully!")
     return redirect(reverse('manage_department'))
+
+
+def add_device(request):
+    form = DeviceForm(request.POST or None)
+    context = {'form': form, 'page_title': 'Add Device'}
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Successfully Added")
+            return redirect(reverse('add_device'))
+        else:
+            messages.error(request, "Could Not Add")
+    return render(request, 'ceo_template/add_device_template.html', context)
+
+
+def manage_device(request):
+    devices = Device.objects.all()
+    context = {
+        'devices': devices,
+        'page_title': 'Manage Devices'
+    }
+    return render(request, "ceo_template/manage_device.html", context)
+
+
+def edit_device(request, device_id):
+    instance = get_object_or_404(Device, id=device_id)
+    form = DeviceForm(request.POST or None, instance=instance)
+    context = {
+        'form': form,
+        'device_id': device_id,
+        'page_title': 'Edit Device'
+    }
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Successfully Updated")
+            return redirect(reverse('edit_device', args=[device_id]))
+        else:
+            messages.error(request, "Could Not Update")
+    return render(request, 'ceo_template/edit_device_template.html', context)
+
+
+def delete_device(request, device_id):
+    device = get_object_or_404(Device, id=device_id)
+    device.delete()
+    messages.success(request, "Device deleted successfully!")
+    return redirect(reverse('manage_device'))

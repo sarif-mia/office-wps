@@ -54,8 +54,25 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # My Apps
-    'main_app.apps.MainAppConfig'
+    'main_app.apps.MainAppConfig',
+    'celery',
 ]
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'UTC'
+
+CELERY_BEAT_SCHEDULE = {
+    'poll-attendance-devices': {
+        'task': 'main_app.tasks.poll_attendance_devices',
+        'schedule': 300.0,  # every 5 minutes
+    },
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

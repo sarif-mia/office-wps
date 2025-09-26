@@ -135,6 +135,28 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    {% url 'add_device' as add_device %}
+                    <a href="{{add_device}}" class="nav-link  {% if add_device == request.path %} active {% endif %}">
+                        <i class="nav-icon fas fa-plus-circle"></i>
+                        <p>
+                            Add Device
+
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    {% url 'manage_device' as manage_device %}
+                    {% url 'edit_device' device_id as edit_device %}
+                    <a href="{{manage_device}}"
+                        class="nav-link  {% if edit_device == request.path or manage_device == request.path %} active {% endif %}">
+                        <i class="nav-icon fas fa-cogs"></i>
+                        <p>
+                            Manage Device
+
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     {% url 'admin_view_attendance' as admin_view_attendance %}
 
                     <li class="nav-item">
@@ -144,7 +166,7 @@
                                 View Attendance
                             </p>
                         </a>
-                    </li>  
+                    </li>
             <li class="nav-item">
                 {% url 'employee_feedback_message' as employee_feedback_message %}
 

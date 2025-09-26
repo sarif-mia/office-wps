@@ -77,9 +77,27 @@ class Employee(models.Model):
     admin = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     division = models.ForeignKey(Division, on_delete=models.DO_NOTHING, null=True, blank=False)
     department = models.ForeignKey(Department, on_delete=models.DO_NOTHING, null=True, blank=False)
+    device_id = models.CharField(max_length=50, blank=True, null=True)
 
     def __str__(self):
         return self.admin.last_name + ", " + self.admin.first_name
+
+class Device(models.Model):
+    TYPE_CHOICES = [
+        ('zk', 'ZK Teco'),
+        ('hik', 'Hikvision')
+    ]
+    type = models.CharField(max_length=3, choices=TYPE_CHOICES)
+    serial_number = models.CharField(max_length=50, unique=True)
+    ip_address = models.GenericIPAddressField(blank=True, null=True)
+    port = models.IntegerField(default=80, blank=True, null=True)
+    username = models.CharField(max_length=100, blank=True, null=True)
+    password = models.CharField(max_length=100, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.get_type_display()} - {self.serial_number}"
 
 class Attendance(models.Model):
     department = models.ForeignKey(Department, on_delete=models.DO_NOTHING)
